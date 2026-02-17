@@ -46,9 +46,9 @@ SELECT * FROM crime_scene_report WHERE type = 'murder' AND city = 'SQL City' AND
 Voici le résultat renvoyé :
 
   -----------------------------------------------------------------------
-  date          type          description                   city
-  ------------- ------------- ----------------------------- -------------
-  20180115      murder        Security footage shows that   SQL City
+  |date        |  type       |   description               |    city    |
+  | :----------|-------------|-----------------------------|-----------:|
+  |20180115     | murder       | Security footage shows that  | SQL City|
                               there were 2 witnesses. The   
                               first witness lives at the    
                               last house on "Northwestern   
