@@ -17,17 +17,23 @@ J'ai fais un `.table` pour comprendre la structure de la base
 
 Voici le résultat renvoyé :
 
-  Tables
-  ------------------------
-  crime_scene_report
-  get_fit_now_check_in
-  interview
-  drivers_license
-  get_fit_now_member
-  person
-  facebook_event_checkin
-  income
-  solution
+-----------------------------------------------------------------------
+
+| Tables                  |
+| :-----------------------|
+| crime_scene_report      |
+| get_fit_now_check_in    |
+| interview               |
+| drivers_license         |
+| get_fit_now_member      |
+| person                  |
+| facebook_event_checkin  |
+| income                  |
+| solution                |
+
+-----------------------------------------------------------------------
+
+  
 
 J'ai fais un `SELECT * FROM` pour toutes les tables afin de comprendre
 vers ou j'allais m'orienter pour réaliser mon enquête.
@@ -37,7 +43,7 @@ City. La table qui me semble la plus pertinente est la première car elle
 devrait contenir le rapport du crime
 
 J'ai donc réalisé la commande suivante qui me permet d'obtenir les
-détails du meuutre :
+détails du meurtre :
 
 ``` sql
 SELECT * FROM crime_scene_report WHERE type = 'murder' AND city = 'SQL City' AND date = 20180115;
@@ -48,16 +54,9 @@ Voici le résultat renvoyé :
   -----------------------------------------------------------------------
   |date        |  type       |   description               |    city    |
   | :----------|-------------|-----------------------------|-----------:|
-  |20180115     | murder       | Security footage shows that  | SQL City|
-                              there were 2 witnesses. The   
-                              first witness lives at the    
-                              last house on "Northwestern   
-                              Dr". The second witness,      
-                              named Annabel, lives          
-                              somewhere on "Franklin Ave".  
+  |20180115     | murder       | Security footage shows that there were 2 witnesses. The first witness lives at the  last house on "Northwestern Dr". The second witness, named Annabel, lives somewhere on "Franklin Ave".| SQL City|
 
   -----------------------------------------------------------------------
-
 Le rapport indique qu'un meutre à eu lieu le 15 janvier 2018 à SQL City,
 2 coupables sont mentionnés. Il existe 2 témoins : Annabel qui habite
 vers "Franklin Ave" et un autre dont on ne connait pas le prénom mais
@@ -76,9 +75,14 @@ SELECT * FROM person LIMIT 10;
 
 Voici une ligne de ce que cette commande me renvoie :
 
-  id      name                 license_id   address_number   address_street_name   ssn
-  ------- -------------------- ------------ ---------------- --------------------- -----------
-  10000   Christoper Peteuil   993845       624              Bankhall Ave          747714076
+-----------------------------------------------------------------------
+
+| id      |  name                 |  license_id  |  address_number  |  address_street_name  |  ssn        |
+| :------ |---------------------- |-------------:|-----------------:|-----------------------|------------:|
+| 10000   |  Christoper Peteuil   |  993845      |  624             |  Bankhall Ave         |  747714076  |
+
+-----------------------------------------------------------------------
+
 
 Je réalise ensuite cette commande qui va me permettre d'avoir le nom des
 colonnes ppour que je puisse les utiliser :
@@ -263,11 +267,16 @@ SELECT * FROM get_fit_now_member WHERE id LIKE '48Z%';
 
 Voici le résultat renvoyé :
 
-  id      person_id   name            membership_start_date   membership_status
-  ------- ----------- --------------- ----------------------- -------------------
-  48Z38   49550       Tomas Baisley   20170203                silver
-  48Z7A   28819       Joe Germuska    20160305                gold
-  48Z55   67318       Jeremy Bowers   20160101                gold
+-----------------------------------------------------------------------
+
+| id     |  person_id  |  name            |  membership_start_date  |  membership_status  |
+| :----- |------------:|----------------- |------------------------:|---------------------|
+| 48Z38  |  49550      |  Tomas Baisley   |  20170203               |  silver             |
+| 48Z7A  |  28819      |  Joe Germuska    |  20160305               |  gold               |
+| 48Z55  |  67318      |  Jeremy Bowers   |  20160101               |  gold               |
+
+-----------------------------------------------------------------------
+
 
 On sait aussi grâce au premier témoin qu'il possède un sac que seul les
 membres gold peuvent avoir donc on sait que le suspect n'est pas Tomas
@@ -336,15 +345,16 @@ SELECT * FROM drivers_license WHERE plate_number LIKE '%H42W%';
 
 Voici le résultat obtenu :
 
-  ------------------------------------------------------------------------------------------------
-  id       age   height   eye_color   hair_color   gender   plate_number   car_make    car_model
-  -------- ----- -------- ----------- ------------ -------- -------------- ----------- -----------
-  183779   21    65       blue        blonde       female   H42W0X         Toyota      Prius
+-----------------------------------------------------------------------
 
-  423327   30    70       brown       brown        male     0H42W2         Chevrolet   Spark LS
+| id      |  age  |  height  |  eye_color  |  hair_color  |  gender  |  plate_number  |  car_make   |  car_model  |
+| :------ |------:|---------:|-------------|--------------|----------|----------------|-------------|-------------|
+| 183779  |  21   |  65      |  blue       |  blonde      |  female  |  H42W0X        |  Toyota     |  Prius      |
+| 423327  |  30   |  70      |  brown      |  brown       |  male    |  0H42W2        |  Chevrolet  |  Spark LS   |
+| 664760  |  21   |  71      |  black      |  black       |  male    |  4H42WR        |  Nissan     |  Altima     |
 
-  664760   21    71       black       black        male     4H42WR         Nissan      Altima
-  ------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
+
 
 Je vais donc chercher dans la table personne quels sont les noms
 associés à ces numéros de licenses à l'aide de la commande suivante :
@@ -355,18 +365,16 @@ SELECT * FROM person WHERE license_id IN (183779, 423327, 664760);
 
 et le résultat que l'on obtient va nous permettre de conclure :
 
-  -------------------------------------------------------------------------------------
-  id      name      license_id    address_number    address_street_name     ssn
-  ------- --------- ------------- ----------------- ----------------------- -----------
-  51739   Tushar    664760        312               Phi St                  137882671
-          Chandra                                                           
+-----------------------------------------------------------------------
 
-  67318   Jeremy    423327        530               Washington Pl, Apt 3A   871539279
-          Bowers                                                            
+| id      |  name               |  license_id  |  address_number  |  address_street_name        |  ssn        |
+| :------ |-------------------- |-------------:|-----------------:|-----------------------------|------------:|
+| 51739   |  Tushar Chandra     |  664760      |  312             |  Phi St                     |  137882671  |
+| 67318   |  Jeremy Bowers      |  423327      |  530             |  Washington Pl, Apt 3A      |  871539279  |
+| 78193   |  Maxine Whitely     |  183779      |  110             |  Fisk Rd                    |  137882671  |
 
-  78193   Maxine    183779        110               Fisk Rd                 137882671
-          Whitely                                                           
-  -------------------------------------------------------------------------------------
+-----------------------------------------------------------------------
+
 
 # Conlusion
 
@@ -418,27 +426,6 @@ Tesla Model S :
 ``` sql
 SELECT * FROM drivers_license WHERE car_make = 'Tesla' AND car_model = 'Model S';
 ```
-
-Voici ce qu'on obtient :
-
-  -----------------------------------------------------------------------------------------------
-  id       age   height   eye_color   hair_color   gender   plate_number   car_make   car_model
-  -------- ----- -------- ----------- ------------ -------- -------------- ---------- -----------
-  202298   68    66       green       red          female   500123         Tesla      Model S
-
-  291182   65    66       blue        red          female   08CM64         Tesla      Model S
-
-  467669   70    65       green       white        male     W528W7         Tesla      Model S
-
-  638311   72    63       amber       white        male     0M846T         Tesla      Model S
-
-  682231   51    80       green       grey         female   3Z0M62         Tesla      Model S
-
-  736081   79    69       brown       red          male     GCAQ6Y         Tesla      Model S
-
-  918773   48    65       black       red          female   917UU3         Tesla      Model S
-  -----------------------------------------------------------------------------------------------
-
 La commande suivante va nous permettre de filtré selon le témoignage de
 Jeremy :
 
@@ -446,17 +433,20 @@ Jeremy :
 SELECT * FROM drivers_license WHERE car_make = 'Tesla' AND car_model = 'Model S' AND gender = 'female' AND hair_color = 'red' AND height BETWEEN 65 AND 70;
 ```
 
-voilà ce qui est renvoyé :
 
-  -----------------------------------------------------------------------------------------------
-  id       age   height   eye_color   hair_color   gender   plate_number   car_make   car_model
-  -------- ----- -------- ----------- ------------ -------- -------------- ---------- -----------
-  202298   68    66       green       red          female   500123         Tesla      Model S
+Voici ce qu'on obtient :
 
-  291182   65    66       blue        red          female   08CM64         Tesla      Model S
+-----------------------------------------------------------------------
 
-  918773   48    65       black       red          female   917UU3         Tesla      Model S
-  -----------------------------------------------------------------------------------------------
+| id      |  age  |  height  |  eye_color  |  hair_color  |  gender  |  plate_number  |  car_make  |  car_model  |
+| :------ |------:|---------:|-------------|--------------|----------|----------------|------------|-------------|
+| 202298  |  68   |  66      |  green      |  red         |  female  |  500123        |  Tesla     |  Model S    |
+| 291182  |  65   |  66      |  blue       |  red         |  female  |  08CM64        |  Tesla     |  Model S    |
+| 918773  |  48   |  65      |  black      |  red         |  female  |  917UU3        |  Tesla     |  Model S    |
+
+-----------------------------------------------------------------------
+
+
 
 Grâce à la commande suivante, on va obtenir les noms des 3 nouveaux
 suspects :
@@ -467,11 +457,16 @@ SELECT * FROM person WHERE license_id IN (202298, 291182, 918773);
 
 résultat :
 
-  id      name               license_id   address_number   address_street_name   ssn
-  ------- ------------------ ------------ ---------------- --------------------- -----------
-  78881   Red Korb           918773       107              Camerata Dr           961388910
-  90700   Regina George      291182       332              Maple Ave             337169072
-  99716   Miranda Priestly   202298       1883             Golden Ave            987756388
+-----------------------------------------------------------------------
+
+| id      |  name               |  license_id  |  address_number  |  address_street_name  |  ssn        |
+| :------ |-------------------- |-------------:|-----------------:|-----------------------|------------:|
+| 78881   |  Red Korb           |  918773      |  107             |  Camerata Dr          |  961388910  |
+| 90700   |  Regina George      |  291182      |  332             |  Maple Ave            |  337169072  |
+| 99716   |  Miranda Priestly   |  202298      |  1883            |  Golden Ave           |  987756388  |
+
+-----------------------------------------------------------------------
+
 
 Je vais regarder ce qui compe la table facebook_event_checkin
 
@@ -492,11 +487,16 @@ SELECT * FROM facebook_event_checkin WHERE person_id = '99716';
 J'ai aucun résultats pour les 2 premiers mais pour le troisième, voici
 ce que j'obtiens :
 
-  person_id   event_id   event_name             date
-  ----------- ---------- ---------------------- ----------
-  99716       1143       SQL Symphony Concert   20171206
-  99716       1143       SQL Symphony Concert   20171212
-  99716       1143       SQL Symphony Concert   20171229
+-----------------------------------------------------------------------
+
+| person_id  |  event_id  |  event_name             |  date       |
+| :----------|-----------:|------------------------ |------------:|
+| 99716      |  1143      |  SQL Symphony Concert   |  20171206   |
+| 99716      |  1143      |  SQL Symphony Concert   |  20171212   |
+| 99716      |  1143      |  SQL Symphony Concert   |  20171229   |
+
+-----------------------------------------------------------------------
+
 
 Elle a assisté trois fois au concert symphonique de SQL en décembre
 2017, comme Jeremy nous l'a indiqué. La commanditaire de ce meurtre est
