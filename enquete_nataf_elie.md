@@ -19,17 +19,11 @@ Voici le résultat renvoyé :
 
 -----------------------------------------------------------------------
 
-| Tables                  |
-| :-----------------------|
-| crime_scene_report      |
-| get_fit_now_check_in    |
-| interview               |
-| drivers_license         |
-| get_fit_now_member      |
-| person                  |
-| facebook_event_checkin  |
-| income                  |
-| solution                |
+| Tables                  |                      |                         |
+| -----------------------|---------------------|------------------------|
+| crime_scene_report      | get_fit_now_check_in | interview               |
+| drivers_license         | get_fit_now_member   | person                  |
+| facebook_event_checkin  | income               | solution                |
 
 -----------------------------------------------------------------------
 
@@ -57,6 +51,7 @@ Voici le résultat renvoyé :
   |20180115     | murder       | Security footage shows that there were 2 witnesses. The first witness lives at the  last house on "Northwestern Dr". The second witness, named Annabel, lives somewhere on "Franklin Ave".| SQL City|
 
   ---
+
 Le rapport indique qu'un meutre à eu lieu le 15 janvier 2018 à SQL City,
 2 coupables sont mentionnés. Il existe 2 témoins : Annabel qui habite
 vers "Franklin Ave" et un autre dont on ne connait pas le prénom mais
@@ -380,19 +375,22 @@ commande :
 
 résultat :
 
-``` sql
-CREATE TABLE drivers_license (
-        id integer PRIMARY KEY,
-        age integer,
-        height integer,
-        eye_color text,
-        hair_color text,
-        gender text,
-        plate_number text,
-        car_make text,
-        car_model text
-    );
-```
+-----------------------------------------------------------------------
+
+| column_name   |  data_type  |  contraintes        |
+| :-------------|-------------|--------------------:|
+| id            |  integer    |  PRIMARY KEY        |
+| age           |  integer    |                     |
+| height        |  integer    |                     |
+| eye_color     |  text       |                     |
+| hair_color    |  text       |                     |
+| gender        |  text       |                     |
+| plate_number  |  text       |                     |
+| car_make      |  text       |                     |
+| car_model     |  text       |                     |
+
+-----------------------------------------------------------------------
+
 
 plate_number va nous permettre de retrouver les plaques.
 
@@ -404,7 +402,7 @@ SELECT * FROM drivers_license WHERE plate_number LIKE '%H42W%';
 
 Voici le résultat obtenu :
 
------------------------------------------------------------------------
+---
 
 | id      |  age  |  height  |  eye_color  |  hair_color  |  gender  |  plate_number  |  car_make   |  car_model  |
 | :------ |------:|---------:|-------------|--------------|----------|----------------|-------------|-------------|
@@ -412,7 +410,7 @@ Voici le résultat obtenu :
 | 423327  |  30   |  70      |  brown      |  brown       |  male    |  0H42W2        |  Chevrolet  |  Spark LS   |
 | 664760  |  21   |  71      |  black      |  black       |  male    |  4H42WR        |  Nissan     |  Altima     |
 
------------------------------------------------------------------------
+---
 
 
 Je vais donc chercher dans la table personne quels sont les noms
@@ -424,7 +422,7 @@ SELECT * FROM person WHERE license_id IN (183779, 423327, 664760);
 
 et le résultat que l'on obtient va nous permettre de conclure :
 
------------------------------------------------------------------------
+---
 
 | id      |  name               |  license_id  |  address_number  |  address_street_name        |  ssn        |
 | :------ |-------------------- |-------------:|-----------------:|-----------------------------|------------:|
@@ -432,7 +430,7 @@ et le résultat que l'on obtient va nous permettre de conclure :
 | 67318   |  Jeremy Bowers      |  423327      |  530             |  Washington Pl, Apt 3A      |  871539279  |
 | 78193   |  Maxine Whitely     |  183779      |  110             |  Fisk Rd                    |  137882671  |
 
------------------------------------------------------------------------
+---
 
 
 # Conlusion
