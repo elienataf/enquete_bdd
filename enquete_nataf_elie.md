@@ -171,18 +171,14 @@ SELECT * FROM interview WHERE person_id = 14887;
 
 Le résultat obtenue pour Morty :
 
-  -----------------------------------------------------------------------
-  person_id                         transcript
-  --------------------------------- -------------------------------------
-  14887                             I heard a gunshot and then saw a man
-                                    run out. He had a "Get Fit Now Gym"
-                                    bag. The membership number on the bag
-                                    started with "48Z". Only gold members
-                                    have those bags. The man got into a
-                                    car with a plate that included
-                                    "H42W".
+-----------------------------------------------------------------------
 
-  -----------------------------------------------------------------------
+| person_id | transcript |
+| :---------|-----------:|
+| 14887     | I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W". |
+
+-----------------------------------------------------------------------
+
 
 La traduction en français donne ca : "J'ai entendu un coup de feu, puis
 j'ai vu un homme sortir en courant. Il portait un sac de la salle de
@@ -198,15 +194,14 @@ Je fais la même commande pour Annabel et voici le résultat que j'obtiens
 SELECT * FROM interview WHERE person_id = 16371;
 ```
 
-  -----------------------------------------------------------------------
-  person_id                         transcript
-  --------------------------------- -------------------------------------
-  16371                             I saw the murder happen, and I
-                                    recognized the killer from my gym
-                                    when I was working out last week on
-                                    January the 9th.
+-----------------------------------------------------------------------
 
-  -----------------------------------------------------------------------
+| person_id | transcript |
+| :---------|-----------:|
+| 16371     | I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th. |
+
+-----------------------------------------------------------------------
+
 
 Voici la traduction en francais : "J'ai vu le meurtre se produire et
 j'ai reconnu le tueur de ma salle de sport lorsque je m'entraînais la
