@@ -51,12 +51,12 @@ SELECT * FROM crime_scene_report WHERE type = 'murder' AND city = 'SQL City' AND
 
 Voici le résultat renvoyé :
 
-  -----------------------------------------------------------------------
+  ---
   |date        |  type       |   description               |    city    |
-  | :----------|-------------|-----------------------------|-----------:|
+  | :----------|-------|-----|-----------:|
   |20180115     | murder       | Security footage shows that there were 2 witnesses. The first witness lives at the  last house on "Northwestern Dr". The second witness, named Annabel, lives somewhere on "Franklin Ave".| SQL City|
 
-  -----------------------------------------------------------------------
+  ---
 Le rapport indique qu'un meutre à eu lieu le 15 janvier 2018 à SQL City,
 2 coupables sont mentionnés. Il existe 2 témoins : Annabel qui habite
 vers "Franklin Ave" et un autre dont on ne connait pas le prénom mais
@@ -75,13 +75,13 @@ SELECT * FROM person LIMIT 10;
 
 Voici une ligne de ce que cette commande me renvoie :
 
------------------------------------------------------------------------
+---
 
 | id      |  name                 |  license_id  |  address_number  |  address_street_name  |  ssn        |
 | :------ |---------------------- |-------------:|-----------------:|-----------------------|------------:|
 | 10000   |  Christoper Peteuil   |  993845      |  624             |  Bankhall Ave         |  747714076  |
 
------------------------------------------------------------------------
+---
 
 
 Je réalise ensuite cette commande qui va me permettre d'avoir le nom des
@@ -111,8 +111,22 @@ trouver les personnes vivants dans cette rue :
 ``` sql
 SELECT * FROM person WHERE address_street_name = 'Northwestern Dr';
 ```
+Voici les 5 premières ligne obtenues : 
 
-J'obtiens un grand nombre de résultats donc je vais filtrer mes
+---
+
+| id      |  name              |  license_id  |  address_number  |  address_street_name  |  ssn        |
+| :------ |------------------- |-------------:|-----------------:|-----------------------|------------:|
+| 10010   |  Muoi Cary         |  385336      |  741             |  Northwestern Dr      |  828638512  |
+| 12711   |  Norman Apolito    |  667757      |  599             |  Northwestern Dr      |  778264744  |
+| 14887   |  Morty Schapiro    |  118009      |  4919            |  Northwestern Dr      |  111564949  |
+| 15171   |  Weldon Penso      |  336999      |  311             |  Northwestern Dr      |  131379495  |
+| 17729   |  Lasonya Wildey    |  439686      |  3824            |  Northwestern Dr      |  917817122  |
+
+---
+
+
+J'obtiens ainsi un grand nombre de résultats donc je vais filtrer mes
 résultats selon l'ordre décroissant car on sait que notre témoin vit
 dans la dernière maison.
 
@@ -121,6 +135,15 @@ Voici la commande que j'utilise :
 ``` sql
 SELECT * FROM person WHERE address_street_name = 'Northwestern Dr' ORDER BY address_number DESC;
 ```
+
+---
+
+| id      |  name             |  license_id  |  address_number  |  address_street_name  |  ssn        |
+| :------ |------------------ |-------------:|-----------------:|-----------------------|------------:|
+| 14887   |  Morty Schapiro   |  118009      |  4919            |  Northwestern Dr      |  111564949  |
+
+---
+
 
 La personne vivant dans la dernière maison est la suivante : Morty
 Schapiro
@@ -136,6 +159,16 @@ Pour cela j'utilise la commande suivante :
 ``` sql
 SELECT * FROM person WHERE name LIKE '%Annabel%' AND address_street_name = 'Franklin Ave';
 ```
+
+Le résultat renvoyé est : 
+
+---
+
+| id      |  name             |  license_id  |  address_number  |  address_street_name  |  ssn        |
+| :------ |------------------ |-------------:|-----------------:|-----------------------|------------:|
+16371|Annabel Miller|490173|103|Franklin Ave|318771143
+
+---
 
 On obtient le nom du deuxième témoin : Annabel Miller.
 
@@ -154,6 +187,19 @@ Ensuite, j'ai fais un
 ``` sql
 SELECT * FROM interview;
 ```
+
+Voici 3 des lignes renvoyés : 
+
+---
+
+| person_id | transcript                                                               |
+| :---------|-------------------------------------------------------------------------:|
+| 74729     | (Dinah was the cat.) ‘I hope they’ll remember her saucer of milk at      |
+| 37357     | Alice did not wish to offend the Dormouse again, so she began very       |
+| 10206     | time,’ she said, ‘than waste it in asking riddles that have no answers.’ |
+
+---
+
 
 il y en a un très grand nombre et il faut l'ID des personnes pour
 trouver leurs interview donc je suis allé rechercher les ID de nos 2
@@ -225,28 +271,31 @@ pour que je sache ou est ce que je vais chercher ses informations.
 
 Voici le résultat pour la première commande :
 
-``` sql
-CREATE TABLE get_fit_now_member (
-        id text PRIMARY KEY,
-        person_id integer,
-        name text,
-        membership_start_date integer,
-        membership_status text,
-        FOREIGN KEY (person_id) REFERENCES person(id)
-    );
-```
+---
+
+| column_name            |  data_type  |  contraintes                                  |
+| :----------------------|-------------|----------------------------------------------:|
+| id                     |  text       |  PRIMARY KEY                                  |
+| person_id              |  integer    |  FOREIGN KEY → person(id)                     |
+| name                   |  text       |                                               |
+| membership_start_date  |  integer    |                                               |
+| membership_status      |  text       |                                               |
+
+---
+
 
 Voici le résultat pour la seconde commande :
 
-``` sql
-CREATE TABLE get_fit_now_check_in (
-        membership_id text,
-        check_in_date integer,
-        check_in_time integer,
-        check_out_time integer,
-        FOREIGN KEY (membership_id) REFERENCES get_fit_now_member(id)
-    );
-```
+---
+
+| column_name     |  data_type  |  contraintes                                           |
+| :---------------|-------------|------------------------------------------------------:|
+| membership_id   |  text       |  FOREIGN KEY → get_fit_now_member(id)                 |
+| check_in_date   |  integer    |                                                       |
+| check_in_time   |  integer    |                                                       |
+| check_out_time  |  integer    |                                                       |
+
+---
 
 Je comprends donc que pour avoir le nom de la personne, il faut que je
 fasse des recherches sur la table get_fit_now_member.
@@ -290,12 +339,27 @@ présence des suspects :
 ``` sql
 SELECT * FROM get_fit_now_check_in WHERE membership_id = '48Z7A';
 ```
+---
+
+| membership_id |  check_in_date  |  check_in_time  |  check_out_time  |
+| :-------------|----------------:|----------------:|-----------------:|
+| 48Z7A         |  20180109       |  1600           |  1730            |
+
+---
+
 
 Joe Germuska était bien présent le 9 janvier.
 
 ``` sql
 SELECT * FROM get_fit_now_check_in WHERE membership_id = '48Z55';
 ```
+---
+
+| membership_id |  check_in_date  |  check_in_time  |  check_out_time  |
+| :-------------|----------------:|----------------:|-----------------:|
+| 48Z55         |  20180109       |  1530           |  1700            |
+
+---
 
 Jeremy Bowers était également présent le 9 janvier.
 
@@ -397,18 +461,14 @@ SELECT * FROM interview WHERE person_id = 67318;
 
 Résultat :
 
-  -----------------------------------------------------------------------
-  person_id                         transcript
-  --------------------------------- -------------------------------------
-  67318                             I was hired by a woman with a lot of
-                                    money. I don't know her name but I
-                                    know she's around 5'5" (65") or 5'7"
-                                    (67"). She has red hair and she
-                                    drives a Tesla Model S. I know that
-                                    she attended the SQL Symphony Concert
-                                    3 times in December 2017.
+---
 
-  -----------------------------------------------------------------------
+| person_id | transcript |
+| :---------|-----------:|
+| 67318     | I was hired by a woman with a lot of money. I don't know her name but I know she's around 5'5" (65") or 5'7" (67"). She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017. |
+
+---
+
 
 Traduction : 67318\|J'ai été embauché par une femme très riche. J'ignore
 son nom, mais je sais qu'elle mesure environ 1,65 m ou 1,70 m. Elle est
@@ -416,13 +476,8 @@ rousse et conduit une Tesla Model S. Je sais qu'elle a assisté trois
 fois au concert symphonique de SQL en décembre 2017.
 
 Je vais donc sélectionner tous les gens avec un permis possedant un
-Tesla Model S :
+Tesla Model S, et j'adapte le filtrage grâce au témoignage de Jérémy avec cette commande :  
 
-``` sql
-SELECT * FROM drivers_license WHERE car_make = 'Tesla' AND car_model = 'Model S';
-```
-La commande suivante va nous permettre de filtré selon le témoignage de
-Jeremy :
 
 ``` sql
 SELECT * FROM drivers_license WHERE car_make = 'Tesla' AND car_model = 'Model S' AND gender = 'female' AND hair_color = 'red' AND height BETWEEN 65 AND 70;
@@ -431,7 +486,7 @@ SELECT * FROM drivers_license WHERE car_make = 'Tesla' AND car_model = 'Model S'
 
 Voici ce qu'on obtient :
 
------------------------------------------------------------------------
+---
 
 | id      |  age  |  height  |  eye_color  |  hair_color  |  gender  |  plate_number  |  car_make  |  car_model  |
 | :------ |------:|---------:|-------------|--------------|----------|----------------|------------|-------------|
@@ -439,7 +494,7 @@ Voici ce qu'on obtient :
 | 291182  |  65   |  66      |  blue       |  red         |  female  |  08CM64        |  Tesla     |  Model S    |
 | 918773  |  48   |  65      |  black      |  red         |  female  |  917UU3        |  Tesla     |  Model S    |
 
------------------------------------------------------------------------
+---
 
 
 
@@ -470,6 +525,20 @@ j'utilise cette commande :
 ``` sql
 .schema facebook_event_checkin
 ```
+
+Le résultat de cette commande est le suivant : 
+
+---
+
+| column_name |  data_type  |  contraintes                                           |
+| :-----------|-------------|-------------------------------------------------------:|
+| person_id   |  integer    |  FOREIGN KEY → person(id)                             |
+| event_id    |  integer    |                                                        |
+| event_name  |  text       |                                                        |
+| date        |  integer    |                                                        |
+
+---
+
 
 Je vais récupérer toutes les données associés aux 3 ID que j'ai trouvé.
 
